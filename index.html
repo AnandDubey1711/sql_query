@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL Query Generator</title>
+</head>
+<body>
+    <h1>SQL Query Generator</h1>
+    <label for="query">Enter your query:</label>
+    <input type="text" id="query">
+    <button onclick="generateSQLQuery()">Generate SQL Query</button>
+    <div id="sqlQueryResult"></div>
+
+    <script>
+        async function generateSQLQuery() {
+            const query = document.getElementById('query').value;
+            const response = await fetch('http://localhost:3000/gensql', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ input: query })
+            });
+            const data = await response.json();
+            
+            document.getElementById('sqlQueryResult').innerText = data.sqlQuery.kwargs.content;
+        }
+    </script>
+</body>
+</html>
